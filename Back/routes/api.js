@@ -16,6 +16,23 @@ router.get('/', (req, res) => {
     res.send('Desde la ruta API');
 });
 
+// Mostrar
+router.get('/list', (req, res, next) => {
+    User.find((err, User) => {
+        if (err) return next(err);
+        res.json(User);
+    });
+    // res.send('Lista de registros');
+});
+
+// Mostrar Uno
+router.get('/list/:id', (req, res, next) => {
+    User.findOne({ _id: req.params.id }, (err, User) => {
+        if (err) return next(err);
+        res.json(User);
+    });
+});
+
 // Guardar
 router.post('/save', (req, res) => {
 
@@ -34,7 +51,7 @@ router.post('/save', (req, res) => {
     let user = new User({
         name: userData.name,
         email: userData.email,
-        password: userData.number
+        number: userData.number
     });
 
     user.save((err, registeredUser) => {
@@ -47,6 +64,31 @@ router.post('/save', (req, res) => {
         }
     });
 
+});
+
+// Eliminar
+router.delete('/list/:id', (req, res, next) => {
+    User.remove({ _id: req.params.id }, (err, result) => {
+        if (err) return next(err);
+        res.json(result);
+    });
+});
+
+// Actualizar
+router.put('/list/:id', (req, res, next) => {
+    User.findOneAndUpdate(
+        { _id: req.params.id }, 
+        { name: req.body.name, email: req.body.email, number: req.body.number }, 
+        (err, User) => {
+            if (err) return next(err);
+            // res.json(req.body);
+            res.json(User);
+    });
+    /* const user = req.body;
+    User.update({ _id: req.params.id }, (err, user) => {
+        if (err) return next(err);
+        res.json(user);
+    }); */
 });
 
 router.get('/events', (req, res) => {

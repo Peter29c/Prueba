@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { SaveService } from './save.service';
+import { ListService } from './list.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,10 @@ import { SaveService } from './save.service';
     HttpModule,
     HttpClientModule
   ],
-  providers: [SaveService],
+  providers: [
+    SaveService,
+    ListService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
